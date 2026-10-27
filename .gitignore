@@ -1,0 +1,14 @@
+# Local settings and secrets
+config.toml
+slurm/env.sh
+*token*
+
+# Run output
+out/
+logs/*
+!logs/.gitkeep
+*.png
+!examples/*.png
+
+__pycache__/
+*.pyc

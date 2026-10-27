@@ -1,0 +1,49 @@
+# hpc-digest configuration.
+# Copy to config.toml (git-ignored) and edit. Override the path with --config
+# or the HPCD_CONFIG environment variable.
+
+[slack]
+# Channel ID, not the name: open the channel's details in Slack, the ID is at
+# the bottom (starts with C). Invite the bot to the channel.
+channel = "C0123456789"
+# The bot token is read from $SLACK_BOT_TOKEN, or else from this file, which
+# should hold only the token and be readable only by you (chmod 600).
+token_file = "~/.config/hpc-digest/slack_token"
+
+[output]
+# Charts, QA reports, owner CSVs and the colour registry that keeps each
+# user's colour the same across runs and across both reports.
+dir = "~/hpc-digest-out"
+
+# ---------------------------------------------------------------- compute ---
+[compute]
+title = "Month-to-date compute usage"
+
+[[compute.accounts]]
+name = "proj2026-1-01"         # Slurm account, as sreport knows it
+label = "Genomics"             # optional display name
+monthly_core_hours = 8000      # optional; adds used vs allocated and pace
+
+[[compute.accounts]]
+name = "proj2026-1-02"
+monthly_core_hours = 12000
+
+# ---------------------------------------------------------------- storage ---
+[storage]
+title = "Storage & inode quota"
+# Directories owned by these users are not credited to anyone; the scan looks
+# below them for the first directory owned by someone else.
+skip_owners = ["root"]
+max_depth = 8                  # how deep to look for those directories
+
+[[storage.projects]]
+label = "genomics"
+path = "/cephfs/proj/genomics"  # the directory that carries the CephFS quota
+# Limits are read from ceph.quota.max_files / ceph.quota.max_bytes. Set them
+# here only if your path has no readable quota:
+# max_files = 2000000
+# max_tib = 30
+
+[[storage.projects]]
+label = "imaging"
+path = "/cephfs/proj/imaging"

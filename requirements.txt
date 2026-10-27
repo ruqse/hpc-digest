@@ -1,0 +1,4 @@
+matplotlib>=3.5
+numpy
+slack_sdk>=3.19
+tomli; python_version < "3.11"
